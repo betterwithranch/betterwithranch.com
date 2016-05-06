@@ -1,5 +1,5 @@
 # For custom domain on github pages
-page "CNAME", layout: false
+#page "CNAME", layout: false
 
 ###
 # Compass
