@@ -1,18 +1,17 @@
-<!doctype html>
-<html>
-  <head>
+<% wrap_layout(:layout) do %>
+<!--  <head>
     <meta charset="utf-8" />
     <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
     <title>Blog Title<%= ' - ' + current_article.title unless current_article.nil? %></title>
     <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
   </head>
-  <body>
+-->
     
-    <div id="main" role="main">
+    <div id="main" role="main" class="col-md-8">
       <%= yield %>
     </div>
     
-    <aside>
+    <aside class="col-md-4">
       <h2>Recent Articles</h2>
       <ol>
         <% blog.articles[0...10].each do |article| %>
@@ -34,5 +33,4 @@
         <% end %>
       </ol>
     </aside>
-  </body>
-</html>
+<% end %>

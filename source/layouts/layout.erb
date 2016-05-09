@@ -17,7 +17,7 @@
     <!-- Custom CSS -->
     <%= stylesheet_link_tag "all" %>
 
-    <link href="stylesheets/clean-blog.min.css" rel="stylesheet">
+    <link href="/stylesheets/clean-blog.min.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -53,13 +53,13 @@
                         <a href="/">Home</a>
                     </li>
                     <li>
-                        <a href="about.html">About</a>
+                        <a href="/about">About</a>
                     </li>
                     <li>
-                        <a href="blog">Blog</a>
+                        <a href="/blog">Blog</a>
                     </li>
                     <li>
-                        <a href="contact.html">Contact</a>
+                        <a href="/contact">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -70,7 +70,7 @@
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('images/home-bg.jpg')">
+    <header class="intro-header" style="background-image: url('/images/home-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -87,7 +87,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <%= yield %>
+          <%= content_for?(:content) ? yield(:content) : yield %>
         </div>
       </div>
     </div>
@@ -139,7 +139,7 @@
     <%= javascript_include_tag "all" %>
 
     <!-- Custom Theme JavaScript -->
-    <script src="javascripts/clean-blog.min.js"></script>
+    <script src="/javascripts/clean-blog.min.js"></script>
 
   </body>
 </html><!doctype html>
