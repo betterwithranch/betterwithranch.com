@@ -1,13 +1,16 @@
-# If you do not have OpenSSL installed, update
-# the following line to use "http://" instead
+# If you have OpenSSL installed, we recommend updating
+# the following line to use "https"
 source 'https://rubygems.org'
 
-gem "middleman", "~>3.4.0"
+gem "middleman", "~> 3.4.0"
+gem "middleman-blog", "~> 3.5.3"
 
-# Live-reloading plugin
 gem "middleman-livereload", "~> 3.1.0"
 gem "middleman-deploy"
+gem "bootstrap-sass"#, require: false
 gem "middleman-bootstrap-navbar"
-gem "bootstrap-sass"
 gem "jquery-middleman"
 gem "font-awesome-sass"
+
+# For feed.xml.builder
+gem "builder", "~> 3.0"
