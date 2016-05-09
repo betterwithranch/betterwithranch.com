@@ -53,10 +53,10 @@
                         <a href="/">Home</a>
                     </li>
                     <li>
-                        <a href="/about">About</a>
+                        <a href="/blog">Blog</a>
                     </li>
                     <li>
-                        <a href="/blog">Blog</a>
+                        <a href="/about">About</a>
                     </li>
                     <li>
                         <a href="/contact">Contact</a>
@@ -68,29 +68,7 @@
         <!-- /.container -->
     </nav>
 
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('/images/home-bg.jpg')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>Better With Ranch</h1>
-                        <hr class="small">
-                        <span class="subheading">Adding a little flavor to software</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <%= content_for?(:content) ? yield(:content) : yield %>
-        </div>
-      </div>
-    </div>
+    <%= content_for?(:content) ? yield(:content) : yield %>
 
     <!-- Footer -->
     <footer>
