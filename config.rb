@@ -32,6 +32,11 @@ activate :blog do |blog|
   # blog.page_link = "page/{num}"
 end
 
+set :markdown_engine, :redcarpet
+set :markdown, fenced_code_blocks: true, smarty_pants: true
+
+activate :syntax
+
 page "/blog/feed.xml", layout: false
 
 ###

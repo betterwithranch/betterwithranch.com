@@ -4,9 +4,11 @@ source 'https://rubygems.org'
 
 gem "middleman", "~> 3.4.0"
 gem "middleman-blog", "~> 3.5.3"
+gem "redcarpet"
 
 gem "middleman-livereload", "~> 3.1.0"
 gem "middleman-deploy"
+gem "middleman-syntax"
 gem "bootstrap-sass"#, require: false
 gem "middleman-bootstrap-navbar"
 gem "jquery-middleman"
