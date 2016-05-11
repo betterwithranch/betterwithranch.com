@@ -1,14 +1,13 @@
+<% content_for(:title) do %>
+  <%= blog.articles[0].title if blog.articles.length > 0 %>
+<% end %>
+
+<% content_for(:head) do %>
+  <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
+<% end %>
+
 <% wrap_layout(:layout) do %>
-<!--  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge;chrome=1' />
-    <title>Blog Title<%= ' - ' + current_article.title unless current_article.nil? %></title>
-    <%= feed_tag :atom, "#{blog.options.prefix.to_s}/feed.xml", title: "Atom Feed" %>
-  </head>
--->
     
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
     <header class="intro-header" style="background-image: url('/images/home-bg.jpg')">
         <div class="container">
             <div class="row">
