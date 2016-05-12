@@ -19,15 +19,10 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-preview">
-                    <a href="post.html">
-                        <h2 class="post-title">
-                          <%= blog.articles[0].title %>
-                        </h2>
-                        <h3 class="post-subtitle">
-                        </h3>
-                    </a>
-                      <%= blog.articles[0].body %>
-                      <p class="post-meta">Posted by <a href="#">Craig Israel</a> on <%= blog.articles[0].date.strftime("%B %d, %Y") %></p>
+                    <% article = blog.articles[0] %>
+                    <h2><%= link_to article.title, article %></h2>
+                      <%= article.body %>
+                      <p class="post-meta">Posted by <a href="#"><%= article.data.author %></a> on <%= blog.articles[0].date.strftime("%B %d, %Y") %></p>
                 </div>
                 <hr>
                 <hr>

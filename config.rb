@@ -1,3 +1,4 @@
+require 'pry'
 # For custom domain on github pages
 #page "CNAME", layout: false
 ###

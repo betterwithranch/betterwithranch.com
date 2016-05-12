@@ -229,6 +229,21 @@ hr.small {
 
 // Post Preview Pages
 
+.post-meta {
+  color: $gray;
+  font-size: 18px;
+  font-style: italic;
+  margin-top: 0;
+  > a {
+    text-decoration: none;
+    color: $gray-dark;
+    &:hover,
+    &:focus {
+      color: $brand-primary;
+      text-decoration: underline;
+    }
+  }
+}
 .post-preview {
 	> a {
 		color: $gray-dark;
@@ -246,21 +261,6 @@ hr.small {
 			margin: 0;
 			font-weight: 300;
 			margin-bottom: 10px;
-		}
-	}
-	> .post-meta {
-		color: $gray;
-		font-size: 18px;
-		font-style: italic;
-		margin-top: 0;
-		> a {
-			text-decoration: none;
-			color: $gray-dark;
-			&:hover,
-			&:focus {
-				color: $brand-primary;
-				text-decoration: underline;
-			}
 		}
 	}
 	@media only screen and (min-width: 768px) {

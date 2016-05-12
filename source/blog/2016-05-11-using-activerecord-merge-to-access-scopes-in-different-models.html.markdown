@@ -1,10 +1,11 @@
 ---
 title: Using ActiveRecord's merge to access scopes in different models
 date: 2016-05-11 21:23 UTC
+author: Craig Israel
 tags: ActiveRecord
 ---
 
-One of the things that I love about ActiveRecord is that it allow me to build sql with
+One of the things that I love about ActiveRecord is that it allows me to build sql by using 
 composition.  By chaining together scopes, I have reusable snippets of SQL code that can
 be combined to build a complex query.  Anyone that has used ActiveRecord has seen this in action:
 
@@ -29,7 +30,7 @@ SELECT "children".* FROM "children" WHERE "children"."active" = 't' AND (created
 ```
 
 Ok, that's great, but what if you want to limit the children by some attribute of it's parent?
-For example, what if we only want recent Child records where the parent is active?
+For example, what if instead of active children, we only want recent Child records where the parent is active?
 
 First, we need to add the relationship to `Child`.
 
@@ -62,7 +63,7 @@ end
 ```
 
 If you've run into this before, you probably joined to (or included) the parent in the query and added a where clause for the
-`active=true condition` like this ...
+`active=true` condition like this ...
 
 ```ruby
 Child.recent.
@@ -95,3 +96,6 @@ the parents table's schema.
 
 One important thing to remember when using merge is that you need to either join or include the parent table
 explicitly.  Without it, you'll get an error like `no such column: parents.active`.
+
+ActiveRecord is a huge framework and there are a ton of great methods in it.  I hope you find this one
+useful.  I'm going to try to introduce more in future posts.  Until next time ...
