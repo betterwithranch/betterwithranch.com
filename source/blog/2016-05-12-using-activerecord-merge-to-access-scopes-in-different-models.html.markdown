@@ -1,6 +1,6 @@
 ---
 title: Using ActiveRecord's merge to access scopes in different models
-date: 2016-05-12 21:23 UTC
+date: 2016-05-12 05:00 UTC
 author: Craig Israel
 tags: ActiveRecord
 ---
