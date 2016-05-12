@@ -84,6 +84,10 @@ activate :bootstrap_navbar
 # Reload the browser automatically whenever files change
 configure :development do
   activate :livereload
+
+  activate :disqus do |d|
+    d.shortname = "development-betterwithranch"
+  end
 end
 
 # Methods defined in the helpers block are available in templates
@@ -118,6 +122,10 @@ configure :build do
 
   # Or use a different image path
   # set :http_prefix, "/Content/images/"
+
+  activate :disqus do |d|
+    d.shortname = "betterwithranch"
+  end
 end
 
 activate :deploy do |deploy|

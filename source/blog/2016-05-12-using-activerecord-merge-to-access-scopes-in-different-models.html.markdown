@@ -1,6 +1,6 @@
 ---
 title: Using ActiveRecord's merge to access scopes in different models
-date: 2016-05-12 05:00 UTC
+date: 2016-05-12
 author: Craig Israel
 tags: ActiveRecord
 ---
@@ -29,7 +29,7 @@ This generates a sql statement by composing the chained scopes.
 SELECT "children".* FROM "children" WHERE "children"."active" = 't' AND (created_at > '2016-05-06')"
 ```
 
-Ok, that's great, but what if you want to limit the children by some attribute of it's parent?
+Ok, that's great, but what if you want to limit the children by some attribute of its parent?
 For example, what if instead of active children, we only want recent Child records where the parent is active?
 
 First, we need to add the relationship to `Child`.
