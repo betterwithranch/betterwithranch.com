@@ -1,12 +1,12 @@
 ---
 title: Using ActiveRecord's merge to access scopes in different models
-date: 2016-05-11 21:23 UTC
+date: 2016-05-12 21:23 UTC
 author: Craig Israel
 tags: ActiveRecord
 ---
 
 One of the things that I love about ActiveRecord is that it allows me to build sql by using 
-composition.  By chaining together scopes, I have reusable snippets of SQL code that can
+composition.  By chaining together scopes, I have reusable snippets of sql code that can
 be combined to build a complex query.  Anyone that has used ActiveRecord has seen this in action:
 
 ```ruby
@@ -23,7 +23,7 @@ end
 Child.active.recent
 ```
 
-This generates a sql statement by composing the scopes chained
+This generates a sql statement by composing the chained scopes.
 
 ```sql
 SELECT "children".* FROM "children" WHERE "children"."active" = 't' AND (created_at > '2016-05-06')"
@@ -78,7 +78,7 @@ SELECT "children".* FROM "children" WHERE "children"."active" = 't' AND (created
 "parents"."active" = 't'
 ```
 
-But, besides being verbose, it doesn't reuse the existing `active` scope on the `Parent` class.  What
+But, besides being a little verbose, it doesn't reuse the existing `active` scope on the `Parent` class.  What
 happens if the definition of the parent's `active` scope changes?  How would we know that this code needs to be changed as well?
 
 `ActiveRecord#merge` to the rescue.  Using `merge`, you can just merge in the scope from the other class.
