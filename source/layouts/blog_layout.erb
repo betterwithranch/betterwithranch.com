@@ -30,10 +30,8 @@
       <% if current_article %>
         <p class="post-meta">Posted by <a href="#"><%= current_article.data.author %></a> on <%= current_article.date.strftime("%B %d, %Y") %></p>
 
-        <%= link_to "Comments", "#" %>
-        <%= disqus %>
-        <%= disqus_count %>
       <% end %>
+      <%= disqus %>
     </div>
     
     <aside class="col-md-4">
