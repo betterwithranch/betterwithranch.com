@@ -10,7 +10,7 @@ involved having the terminal open in the initial directory where the session was
 having to navigate to the directory of the project where I am working.
 
 Well, it turns out that tmux supports opening a window where the terminal's directory
-is the same as the directory of the current pane and it's easy to do!.  Simply use
+is the same as the directory of the current pane and it's easy to do!  Simply use
 the `-c` option to set the working directory and the `{pane_current_path}` variable to use
 the current panes path for the value.
 

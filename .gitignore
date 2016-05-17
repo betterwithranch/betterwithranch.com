@@ -9,6 +9,7 @@
 
 # Ignore the build directory
 /build
+!/build/blog/tags
 
 # Ignore cache
 /.sass-cache
