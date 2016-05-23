@@ -16,24 +16,40 @@
 
     <!-- Main Content -->
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-preview">
-                    <% article = blog.articles[0] %>
-                    <h2><%= link_to article.title, article %></h2>
-                      <%= article.body %>
-                      <p class="post-meta">Posted by <a href="#"><%= article.data.author %></a> on <%= blog.articles[0].date.strftime("%B %d, %Y") %></p>
-                </div>
-                <hr>
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    <li class="next">
-                        <a href="/blog">Older Posts &rarr;</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-1">
+          <p>
+          Hi! I'm Craig.  I'm a freelance software architect/engineer.  I'm available to help
+          you make your next progress a success.  <a href="/contact">Contact me</a> if you have
+          a project and can use help with Rails, Javascript, architecture, relational database design,
+          TDD, micro-services, NoSQL, or remote pairing.  I can help!
+          </p>
+
+          <p>
+          I'm also blogging about interesting things that I've discovered in my software travels.
+          </p>
         </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-1">
+            <h1>Latest post</h1>
+            <div class="post-preview">
+                <% article = blog.articles[0] %>
+                <h2><%= link_to article.title, article %></h2>
+                  <%= article.body %>
+                  <p class="post-meta">Posted by <a href="#"><%= article.data.author %></a> on <%= blog.articles[0].date.strftime("%B %d, %Y") %></p>
+            </div>
+            <hr>
+            <hr>
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="next">
+                    <a href="/blog">Older Posts &rarr;</a>
+                </li>
+            </ul>
+        </div>
+      </div>
     </div>
 
     <hr>
