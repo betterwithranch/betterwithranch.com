@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Better With Ranch</title>
+  <subtitle>Adding a little flavor to software</subtitle>
+  <id>http://www.betterwithranch.com/blog</id>
+  <link href="http://www.betterwithranch.com/blog"/>
+  <link href="http://www.betterwithranch.com/blog/feed.xml" rel="self"/>
+  <updated>2016-05-17T13:51:00-05:00</updated>
+  <author>
+    <name>Blog Author</name>
+  </author>
+  <entry>
+    <title>Opening a new tmux window in the current directory</title>
+    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/"/>
+    <id>http://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/</id>
+    <published>2016-05-17T13:51:00-05:00</published>
+    <updated>2016-05-23T10:30:50-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;If you are using &lt;a href="https://tmux.github.io/"&gt;tmux&lt;/a&gt;, you know about splitting windows and opening new windows.
+I do that all the time to get a new terminal to do things like run a dependency service or tail a log.  Until recently, this
+involved having the terminal open in the initial directory where the session was started and then
+having to navigate to the directory of the project where I am working.&lt;/p&gt;
+
+&lt;p&gt;Well, it turns out that tmux supports opening a window where the terminal&amp;#39;s directory
+is the same as the directory of the current pane and it&amp;#39;s easy to do!  Simply use
+the &lt;code&gt;-c&lt;/code&gt; option to set the working directory and the &lt;code&gt;{pane_current_path}&lt;/code&gt; variable to use
+the current panes path for the value.&lt;/p&gt;
+
+&lt;p&gt;For example, to open a new terminal in a vertical split:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;code&gt;split-window -c &lt;span class="s1"&gt;'#{pane_current_path}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I&amp;#39;ve configured my &lt;a href="https://github.com/betterwithranch/dotfiles/blob/master/.tmux.conf"&gt;&lt;code&gt;~/.tmux.conf&lt;/code&gt;&lt;/a&gt;
+file to change the split-window and new-window aliases to use this because I almost always want this
+behavior.&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="c"&gt;# In ~/.tmux.conf&lt;/span&gt;
+
+&lt;span class="c"&gt;# Note that the binding to `"` needs to be escaped.&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; &lt;span class="s1"&gt;'"'&lt;/span&gt; split-window -c &lt;span class="s1"&gt;'#{pane_current_path}'&lt;/span&gt;
+&lt;span class="nb"&gt;bind&lt;/span&gt; % split-window -h -c &lt;span class="s1"&gt;'#{pane_current_path}'&lt;/span&gt;
+&lt;span class="nb"&gt;bind &lt;/span&gt;c new-window -c &lt;span class="s1"&gt;'#{pane_current_path}'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Remember, if you change your tmux configuration and want to reload the current server to use the
+configuration run the following command:&lt;/p&gt;
+&lt;pre class="highlight shell"&gt;&lt;code&gt;&lt;span class="nb"&gt;source&lt;/span&gt;-file ~/.tmux.conf
+&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Using ActiveRecord's merge to access scopes in different models</title>
+    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/"/>
+    <id>http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/</id>
+    <published>2016-05-11T19:00:00-05:00</published>
+    <updated>2016-05-23T10:30:50-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;One of the things that I love about ActiveRecord is that it allows me to build sql by using 
+composition.  By chaining together scopes, I have reusable snippets of sql code that can
+be combined to build a complex query.  Anyone that has used ActiveRecord has seen this in action:&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Child&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;active&lt;/span&gt;
+    &lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;active: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;recent&lt;/span&gt;
+    &lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"created_at &amp;gt; ? "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;today&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;days&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+
+&lt;span class="no"&gt;Child&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;active&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;recent&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This generates a sql statement by composing the chained scopes.&lt;/p&gt;
+&lt;pre class="highlight sql"&gt;&lt;code&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;"active"&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'t'&lt;/span&gt; &lt;span class="k"&gt;AND&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;created_at&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-05-06'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;"
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ok, that&amp;#39;s great, but what if you want to limit the children by some attribute of its parent?
+For example, what if instead of active children, we only want recent Child records where the parent is active?&lt;/p&gt;
+
+&lt;p&gt;First, we need to add the relationship to &lt;code&gt;Child&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Child&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+
+  &lt;span class="n"&gt;belongs_to&lt;/span&gt; &lt;span class="ss"&gt;:parent&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;active&lt;/span&gt;
+    &lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;active: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;recent&lt;/span&gt;
+    &lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"created_at &amp;gt; ? "&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;today&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;days&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, we create the parent class.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Parent&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Base&lt;/span&gt;
+
+  &lt;span class="n"&gt;has_many&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;active&lt;/span&gt;
+    &lt;span class="n"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;active: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you&amp;#39;ve run into this before, you probably joined to (or included) the parent in the query and added a where clause for the
+&lt;code&gt;active=true&lt;/code&gt; condition like this ...&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;Child&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;recent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+  &lt;span class="nf"&gt;joins&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:parent&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;
+  &lt;span class="nf"&gt;where&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;parents: &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="ss"&gt;active: &lt;/span&gt;&lt;span class="kp"&gt;true&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This works and generates the sql&lt;/p&gt;
+&lt;pre class="highlight sql"&gt;&lt;code&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="nv"&gt;"children"&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nv"&gt;"active"&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'t'&lt;/span&gt; &lt;span class="k"&gt;AND&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;created_at&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-05-06'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="nv"&gt;" AND
+"&lt;/span&gt;&lt;span class="n"&gt;parents&lt;/span&gt;&lt;span class="nv"&gt;"."&lt;/span&gt;&lt;span class="n"&gt;active&lt;/span&gt;&lt;span class="nv"&gt;" = 't'
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But, besides being a little verbose, it doesn&amp;#39;t reuse the existing &lt;code&gt;active&lt;/code&gt; scope on the &lt;code&gt;Parent&lt;/code&gt; class.  What
+happens if the definition of the parent&amp;#39;s &lt;code&gt;active&lt;/code&gt; scope changes?  How would we know that this code needs to be changed as well?&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;ActiveRecord#merge&lt;/code&gt; to the rescue.  Using &lt;code&gt;merge&lt;/code&gt;, you can just merge in the scope from the other class.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="no"&gt;Child&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;recent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+  &lt;span class="nf"&gt;joins&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;:parent&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;
+  &lt;span class="nf"&gt;merge&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="no"&gt;Parent&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;active&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This generates the exact same sql as above, but provides a number of advantages to the readability and
+maintainability of our code.  By reusing the existing scope on the &lt;code&gt;Parent&lt;/code&gt; class, we have DRYed up our
+code and made it more intention-revealing.  Also, we have now abstracted the implementation detail of
+the parents table&amp;#39;s schema.&lt;/p&gt;
+
+&lt;p&gt;One important thing to remember when using merge is that you need to either join or include the parent table
+explicitly.  Without it, you&amp;#39;ll get an error like &lt;code&gt;no such column: parents.active&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;ActiveRecord is a huge framework and there are a ton of great methods in it.  I hope you find this one
+useful.  I&amp;#39;m going to try to introduce more in future posts.  Until next time ...&lt;/p&gt;
+</content>
+  </entry>
+</feed>
