@@ -2,7 +2,7 @@
 title: Using ActiveRecord's merge to access scopes in different models
 date: 2016-05-12
 author: Craig Israel
-tags: ActiveRecord
+tags: ActiveRecord Rails
 ---
 
 One of the things that I love about ActiveRecord is that it allows me to build sql by using 
