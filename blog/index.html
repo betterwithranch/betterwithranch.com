@@ -174,7 +174,7 @@ we have introduced the possibility of a bug by typing the wrong table or column 
 be a much more complex <code>down</code> method to implement because we would need to call them in the
 reverse order of the <code>up</code> method.</p>
 
-<p>Fortunately, ActiveRecord migrations already provides a solution for us.  The <code>reversible</code> method.
+<p>Fortunately, ActiveRecord migrations already provide a solution for us.  The <code>reversible</code> method.
 Basically, this method allows you to specify up and down behavior for part of the migration.</p>
 <pre class="highlight ruby"><code><span class="k">class</span> <span class="nc">Irreversible</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>

@@ -14,7 +14,7 @@
     <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/"/>
     <id>http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/</id>
     <published>2016-06-07T09:43:00-05:00</published>
-    <updated>2016-06-07T11:16:29-05:00</updated>
+    <updated>2016-06-07T12:02:48-05:00</updated>
     <author>
       <name>Article Author</name>
     </author>
@@ -98,7 +98,7 @@ we have introduced the possibility of a bug by typing the wrong table or column 
 be a much more complex &lt;code&gt;down&lt;/code&gt; method to implement because we would need to call them in the
 reverse order of the &lt;code&gt;up&lt;/code&gt; method.&lt;/p&gt;
 
-&lt;p&gt;Fortunately, ActiveRecord migrations already provides a solution for us.  The &lt;code&gt;reversible&lt;/code&gt; method.
+&lt;p&gt;Fortunately, ActiveRecord migrations already provide a solution for us.  The &lt;code&gt;reversible&lt;/code&gt; method.
 Basically, this method allows you to specify up and down behavior for part of the migration.&lt;/p&gt;
 &lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Irreversible&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
   &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;change&lt;/span&gt;
