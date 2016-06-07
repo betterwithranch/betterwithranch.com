@@ -94,7 +94,7 @@ Finally, in this case, the order of the statements is not significant, but if it
 be a much more complex `down` method to implement because we would need to call them in the
 reverse order of the `up` method.
 
-Fortunately, ActiveRecord migrations already provides a solution for us.  The `reversible` method.
+Fortunately, ActiveRecord migrations already provide a solution for us.  The `reversible` method.
 Basically, this method allows you to specify up and down behavior for part of the migration.
 
 ```ruby
