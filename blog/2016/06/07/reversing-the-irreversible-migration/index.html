@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,15 +14,17 @@
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
 
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Better With Ranch (Freelance Rails Engineer)</title>
+    <title>  Reversing The Irreversible Migration
+</title>
 
-    
+      <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="/blog/feed.xml" />
+
 
     <!-- Custom CSS -->
-    <link href="stylesheets/all-a7457506.css" rel="stylesheet" />
+    <link href="../../../../../stylesheets/all-a7457506.css" rel="stylesheet" />
 
-    <link href="stylesheets/clean-blog-3d035bc7.css" rel="stylesheet" />
-    <link href="stylesheets/highlights-35741444.css" rel="stylesheet" />
+    <link href="../../../../../stylesheets/clean-blog-3d035bc7.css" rel="stylesheet" />
+    <link href="../../../../../stylesheets/highlights-35741444.css" rel="stylesheet" />
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,7 +38,7 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
   </head>
-  <body class="index">
+  <body class="blog blog_2016 blog_2016_06 blog_2016_06_07 blog_2016_06_07_reversing-the-irreversible-migration blog_2016_06_07_reversing-the-irreversible-migration_index">
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -70,8 +74,7 @@
         <!-- /.container -->
     </nav>
 
-        <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
+        
     <header class="intro-header" style="background-image: url('/images/home-bg-990f6f9d.jpg')">
         <div class="container">
             <div class="row">
@@ -86,29 +89,9 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-1">
-          <p>
-          Hi! I'm Craig.  I'm a freelance, full-stack software architect/engineer.  I'm available to help
-          you make your next progress a success.  <a href="/contact">Contact me</a> if you have
-          a project and can use help with Rails, Javascript, architecture, relational database design,
-          TDD, micro-services, NoSQL, or remote pairing.  I can help!
-          </p>
-
-          <p>
-          I'm also blogging about interesting things that I discover in my software travels.
-          </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-1">
-            <h1>Latest post</h1>
-            <div class="post-preview">
-                <h2><a href="/blog/2016/06/07/reversing-the-irreversible-migration/">Reversing The Irreversible Migration</a></h2>
-                  <p>If you&#39;ve been writing migrations for ActiveRecord for very long, you have eventually encountered this
+    <div id="main" role="main" class="col-md-8">
+        <h2>Reversing The Irreversible Migration</h2>
+      <p>If you&#39;ve been writing migrations for ActiveRecord for very long, you have eventually encountered this
 error when trying to rollback a migration.  </p>
 <pre class="highlight plaintext"><code>== 20160607145211 Irreversible: reverting =====================================
 rake aborted!
@@ -220,22 +203,44 @@ will work when you need it.  I like to run my migration when I write it with <co
 then immediately re-run it with <code>rake db:migrate:redo</code> to verify the rollback.  And, now that you know how to
 reverse &quot;irreversible&quot; migrations, you can save the exception for times when the migration truly cannot be reversed.</p>
 
-                  <p class="post-meta">Posted by <a href="#"></a> on June 07, 2016</p>
-            </div>
-            <hr>
-            <hr>
-            <!-- Pager -->
-            <ul class="pager">
-                <li class="next">
-                    <a href="/blog">Older Posts &rarr;</a>
-                </li>
-            </ul>
-        </div>
-      </div>
+        <p class="post-meta">Posted by <a href="#"></a> on June 07, 2016</p>
+
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+//<![CDATA[
+                  var disqus_shortname = 'betterwithranch';
+          
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+//]]>
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
     </div>
+    
+    <aside class="col-md-4">
+      <h2>Recent Articles</h2>
+      <ol>
+          <li><a href="/blog/2016/06/07/reversing-the-irreversible-migration/">Reversing The Irreversible Migration</a> <span>Jun  7</span></li>
+          <li><a href="/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/">Opening a new tmux window in the current directory</a> <span>May 17</span></li>
+          <li><a href="/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/">Using ActiveRecord's merge to access scopes in different models</a> <span>May 12</span></li>
+      </ol>
 
-    <hr>
+      <h2>Tags</h2>
+      <ol>
+          <li><a href="/blog/tags/activerecord-rails/">ActiveRecord Rails (2)</a></li>
+          <li><a href="/blog/tags/tmux/">tmux (1)</a></li>
+      </ol>
 
+      <h2>By Year</h2>
+      <ol>
+          <li><a href="/blog/2016/">2016 (3)</a></li>
+      </ol>
+    </aside>
 
 
     <!-- Footer -->
@@ -278,10 +283,10 @@ reverse &quot;irreversible&quot; migrations, you can save the exception for time
     </footer>
 
 
-    <script src="javascripts/all-35353898.js"></script>
+    <script src="../../../../../javascripts/all-35353898.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="javascripts/clean-blog-884d8e8c.js"></script>
+    <script src="../../../../../javascripts/clean-blog-884d8e8c.js"></script>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

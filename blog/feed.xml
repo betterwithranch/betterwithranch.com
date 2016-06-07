@@ -5,10 +5,132 @@
   <id>http://www.betterwithranch.com/blog</id>
   <link href="http://www.betterwithranch.com/blog"/>
   <link href="http://www.betterwithranch.com/blog/feed.xml" rel="self"/>
-  <updated>2016-05-17T13:51:00-05:00</updated>
+  <updated>2016-06-07T09:43:00-05:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
+  <entry>
+    <title>Reversing The Irreversible Migration</title>
+    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/"/>
+    <id>http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/</id>
+    <published>2016-06-07T09:43:00-05:00</published>
+    <updated>2016-06-07T11:16:29-05:00</updated>
+    <author>
+      <name>Article Author</name>
+    </author>
+    <content type="html">&lt;p&gt;If you&amp;#39;ve been writing migrations for ActiveRecord for very long, you have eventually encountered this
+error when trying to rollback a migration.  &lt;/p&gt;
+&lt;pre class="highlight plaintext"&gt;&lt;code&gt;== 20160607145211 Irreversible: reverting =====================================
+rake aborted!
+StandardError: An error has occurred, this and all later migrations canceled:
+
+ActiveRecord::IrreversibleMigration
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This typically occurs because the previous state is unknown when rolling back, so a reversal can&amp;#39;t be
+generated.  For example, we cannot rollback this migration.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyMigration&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;change&lt;/span&gt;
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:bigint&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Nothing in this migration indicates what the previous type was, so ActiveRecord cannot generate
+the reverse statement.  Fortunately, there are a couple of ways to fix this problem.  First,
+we could split the &lt;code&gt;change&lt;/code&gt; method out into &lt;code&gt;up&lt;/code&gt; and &lt;code&gt;down&lt;/code&gt; methods.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyMigration&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;up&lt;/span&gt;
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:bigint&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;down&lt;/span&gt;
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:integer&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This works great in this simple example, but what if you have a longer migration and only part of
+it is irreversible?&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyMigration&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;change&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# This is reversible&lt;/span&gt;
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:parent_id&lt;/span&gt;
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:active&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# This is irreversible&lt;/span&gt;
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:bigint&lt;/span&gt;
+
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You could rewrite this as &lt;code&gt;up&lt;/code&gt; and &lt;code&gt;down&lt;/code&gt; methods.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MyMigration&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;up&lt;/span&gt;
+
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:parent_id&lt;/span&gt;
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:active&lt;/span&gt;
+
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:bigint&lt;/span&gt;
+
+  &lt;span class="k"&gt;end&lt;/span&gt;
+
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;down&lt;/span&gt;
+    &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:integer&lt;/span&gt;
+
+    &lt;span class="n"&gt;remove_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:active&lt;/span&gt;
+    &lt;span class="n"&gt;remove_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:parent_id&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will work, but is undesirable for a couple of reasons.  First, the &lt;code&gt;remove_index&lt;/code&gt; calls
+are duplicating functionality that ActiveRecord migrations already provide.  This is a pretty
+straightforward example, but for some other migration commands, it would be best to allow the
+tested framework code to do this.&lt;/p&gt;
+
+&lt;p&gt;Also, by explicitly calling the &lt;code&gt;add_index&lt;/code&gt; and &lt;code&gt;remove_index&lt;/code&gt; statements,
+we have introduced the possibility of a bug by typing the wrong table or column names.&lt;/p&gt;
+
+&lt;p&gt;Finally, in this case, the order of the statements is not significant, but if it were, this would
+be a much more complex &lt;code&gt;down&lt;/code&gt; method to implement because we would need to call them in the
+reverse order of the &lt;code&gt;up&lt;/code&gt; method.&lt;/p&gt;
+
+&lt;p&gt;Fortunately, ActiveRecord migrations already provides a solution for us.  The &lt;code&gt;reversible&lt;/code&gt; method.
+Basically, this method allows you to specify up and down behavior for part of the migration.&lt;/p&gt;
+&lt;pre class="highlight ruby"&gt;&lt;code&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Irreversible&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;ActiveRecord&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Migration&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;change&lt;/span&gt;
+
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:parent_id&lt;/span&gt;
+    &lt;span class="n"&gt;add_index&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:active&lt;/span&gt;
+
+    &lt;span class="n"&gt;reversible&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;
+      &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;up&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:bigint&lt;/span&gt;
+      &lt;span class="k"&gt;end&lt;/span&gt;
+      &lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;down&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="n"&gt;change_column&lt;/span&gt; &lt;span class="ss"&gt;:children&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;:int&lt;/span&gt;
+
+      &lt;span class="k"&gt;end&lt;/span&gt;
+    &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By using the &lt;code&gt;reversible&lt;/code&gt; method, we can define the up and down behavior in blocks that will
+execute when the change method is migrating up or down.  In addition to removing the duplication
+and complexity of the previous example, this clearly specifies the fact that there is an
+irreversible task occurring.  Since this is often a task that should be inspected carefully
+because of it&amp;#39;s possible data loss effects, this is a nice benefit.&lt;/p&gt;
+
+&lt;p&gt;It&amp;#39;s a good habit to test the rollback of every migration that you write to make sure that it
+will work when you need it.  I like to run my migration when I write it with &lt;code&gt;rake db:migrate&lt;/code&gt; and
+then immediately re-run it with &lt;code&gt;rake db:migrate:redo&lt;/code&gt; to verify the rollback.  And, now that you know how to
+reverse &amp;quot;irreversible&amp;quot; migrations, you can save the exception for times when the migration truly cannot be reversed.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Opening a new tmux window in the current directory</title>
     <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/"/>
@@ -54,7 +176,7 @@ configuration run the following command:&lt;/p&gt;
     <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/"/>
     <id>http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/</id>
     <published>2016-05-11T19:00:00-05:00</published>
-    <updated>2016-05-23T10:30:50-05:00</updated>
+    <updated>2016-06-07T09:44:47-05:00</updated>
     <author>
       <name>Article Author</name>
     </author>
