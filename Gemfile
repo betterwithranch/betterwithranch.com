@@ -14,6 +14,7 @@ gem "bootstrap-sass"#, require: false
 gem "middleman-bootstrap-navbar"
 gem "jquery-middleman"
 gem "font-awesome-sass"
+gem 'nokogiri'
 
 # For feed.xml.builder
 gem "builder", "~> 3.0"
