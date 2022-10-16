@@ -2,17 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Better With Ranch</title>
   <subtitle>Adding a little flavor to software</subtitle>
-  <id>http://www.betterwithranch.com/blog</id>
-  <link href="http://www.betterwithranch.com/blog"/>
-  <link href="http://www.betterwithranch.com/blog/feed.xml" rel="self"/>
+  <id>https://www.betterwithranch.com/blog</id>
+  <link href="https://www.betterwithranch.com/blog"/>
+  <link href="https://www.betterwithranch.com/blog/feed.xml" rel="self"/>
   <updated>2016-06-07T09:43:00-05:00</updated>
   <author>
     <name>Blog Author</name>
   </author>
   <entry>
     <title>Reversing The Irreversible Migration</title>
-    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/"/>
-    <id>http://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/</id>
+    <link rel="alternate" href="https://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/"/>
+    <id>https://www.betterwithranch.com/blog/2016/06/07/reversing-the-irreversible-migration/</id>
     <published>2016-06-07T09:43:00-05:00</published>
     <updated>2016-06-07T12:02:48-05:00</updated>
     <author>
@@ -133,8 +133,8 @@ reverse &amp;quot;irreversible&amp;quot; migrations, you can save the exception 
   </entry>
   <entry>
     <title>Opening a new tmux window in the current directory</title>
-    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/"/>
-    <id>http://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/</id>
+    <link rel="alternate" href="https://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/"/>
+    <id>https://www.betterwithranch.com/blog/2016/05/17/opening-a-new-tmux-window-in-the-current-directory/</id>
     <published>2016-05-17T13:51:00-05:00</published>
     <updated>2016-05-23T10:30:50-05:00</updated>
     <author>
@@ -173,8 +173,8 @@ configuration run the following command:&lt;/p&gt;
   </entry>
   <entry>
     <title>Using ActiveRecord's merge to access scopes in different models</title>
-    <link rel="alternate" href="http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/"/>
-    <id>http://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/</id>
+    <link rel="alternate" href="https://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/"/>
+    <id>https://www.betterwithranch.com/blog/2016/05/12/using-activerecord-merge-to-access-scopes-in-different-models/</id>
     <published>2016-05-11T19:00:00-05:00</published>
     <updated>2016-06-07T09:44:47-05:00</updated>
     <author>
