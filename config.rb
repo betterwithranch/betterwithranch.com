@@ -5,6 +5,7 @@
 #  prefix.browsers = "last 2 versions"
 #end
 
+activate :asset_hash
 # Layouts
 # https://middlemanapp.com/basics/layouts/
 
