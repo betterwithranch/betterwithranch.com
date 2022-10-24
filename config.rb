@@ -5,7 +5,6 @@
 #  prefix.browsers = "last 2 versions"
 #end
 
-activate :asset_hash
 # Layouts
 # https://middlemanapp.com/basics/layouts/
 
@@ -41,7 +40,8 @@ page '/*.txt', layout: false
 # Build-specific configuration
 # https://middlemanapp.com/advanced/configuration/#environment-specific-settings
 
-# configure :build do
+ configure :build do
+    activate :asset_hash
 #   activate :minify_css
 #   activate :minify_javascript
-# end
+ end
